@@ -1,0 +1,68 @@
+{
+  "meta": {
+    "game_id": "game_0007",
+    "code_name": "MG-0007",
+    "title_kr": "픽셀 농장 방치RPG",
+    "title_en": "Pixel Farm Idle RPG",
+    "version": "0.1.0",
+    "last_updated": "2025-01-01"
+  },
+  "overview": {
+    "genre_tags": ["farming", "idle", "jrpg"],
+    "target_audience": {
+      "age": "15-35",
+      "region": ["KR", "SEA"],
+      "play_style": "casual"
+    },
+    "core_loop": "농장을 운영하며 자원을 생산하고, 퀘스트를 수행하며, 방치 수익으로 성장한다",
+    "unique_selling_point": "농장 경영과 RPG 요소의 조화"
+  },
+  "gameplay": {
+    "core_mechanics": [
+      {
+        "name": "농장 경영",
+        "description": "작물 재배, 가축 사육, 자원 수집"
+      },
+      {
+        "name": "방치 생산",
+        "description": "오프라인 시간 동안 자동으로 작물 생산"
+      },
+      {
+        "name": "퀘스트 시스템",
+        "description": "NPC 퀘스트를 수행하며 스토리 진행"
+      }
+    ],
+    "progression": {
+      "type": "farm_expansion",
+      "description": "농장 확장과 퀘스트 진행으로 발전"
+    },
+    "session_length": "5-15분"
+  },
+  "economy": {
+    "currencies": [
+      {
+        "name": "골드",
+        "type": "soft",
+        "sources": ["작물 판매", "방치 수익", "퀘스트"],
+        "sinks": ["씨앗 구매", "시설 업그레이드", "도구 구매"]
+      },
+      {
+        "name": "보석",
+        "type": "hard",
+        "sources": ["인앱 구매", "업적", "이벤트"],
+        "sinks": ["특별 작물", "생산 가속", "골드 구매"]
+      }
+    ],
+    "monetization": {
+      "model": "F2P + IAP",
+      "iap_items": ["보석 패키지", "월정액", "스타터 팩"],
+      "ad_placements": ["보상형 광고 (생산 가속, 보상 2배)", "인터스티셜 (퀘스트 완료 후)"]
+    }
+  },
+  "technical": {
+    "platform": ["Android", "iOS"],
+    "engine": "Flutter + Flame",
+    "backend": "Firebase",
+    "analytics": "GA4 + BigQuery"
+  }
+}
