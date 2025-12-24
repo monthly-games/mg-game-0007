@@ -1,7 +1,13 @@
-# 픽셀 농장 방치RPG - BM 설계 문서
+﻿# 픽셀 농장 방치RPG - BM 설계 문서
 
 > game_id: game_0007
 > repo: mg-game-0007
+> title_kr: 픽셀 농장 방치RPG
+> title_en: Pixel Farm Idle RPG
+> genre_tags: farming, idle, jrpg
+> doc_type: bm_design
+> source_of_truth: docs/design/gdd_game_0007.json
+> last_updated: 2025-12-19
 
 ---
 
