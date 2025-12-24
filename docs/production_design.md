@@ -275,18 +275,18 @@ double upgradeBonus(String upgradeId, int level) {
 ## 6. 프로덕션 체크리스트
 
 ### 핵심 기능
-- [x] 달리기 시스템
-- [x] 점프/슬라이드 조작
-- [x] 장애물 생성
-- [x] 코인 수집
+- [x] 달리기 시스템 (자동 스크롤 200 속도)
+- [x] 점프/슬라이드 조작 (탭/키보드)
+- [x] 장애물 생성 (2.5초 간격)
+- [x] 코인 수집 (플랫폼당 60% 확률)
 - [x] 게임 오버/재시작
-- [ ] 부스터 아이템
+- [x] 부스터 아이템 (Magnet, Shield, DoubleCoin)
 
 ### 콘텐츠
-- [ ] 5+ 캐릭터
-- [ ] 10+ 장애물 타입
-- [ ] 3+ 테마 배경
-- [ ] 튜토리얼
+- [x] 5+ 캐릭터 (5개: Blue/Red/Green/Yellow/Purple)
+- [ ] 10+ 장애물 타입 (현재 1종)
+- [x] 3+ 테마 배경 (3개: Farm/Forest/Sunset)
+- [x] 튜토리얼 (3단계)
 
 ### 메타 시스템
 - [x] 프레스티지 시스템
@@ -297,9 +297,9 @@ double upgradeBonus(String upgradeId, int level) {
 
 ### 수익화
 - [ ] 광고 SDK
-- [ ] IAP 상품
-- [ ] 상점 UI
-- [ ] 부활 시스템
+- [x] IAP 상품 (코인 팩 3종, 광고 제거)
+- [x] 상점 UI (ShopScreen)
+- [x] 부활 시스템 (Shield 부스터)
 
 ### QA/최적화
 - [ ] 속도 밸런싱
