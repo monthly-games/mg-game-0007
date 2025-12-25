@@ -10,9 +10,16 @@ class Obstacle extends PositionComponent
   Obstacle({required super.position, required super.size})
     : super(anchor: Anchor.topLeft);
 
+  Sprite? _sprite;
+
   @override
   Future<void> onLoad() async {
     add(RectangleHitbox());
+    try {
+      _sprite = await game.loadSprite('obstacle.png');
+    } catch (e) {
+      // Ignore
+    }
   }
 
   @override
@@ -53,30 +60,34 @@ class Obstacle extends PositionComponent
   void render(Canvas canvas) {
     super.render(canvas);
 
-    // 장애물 그리기 (빨간 사각형)
-    final paint = Paint()..color = Colors.red;
-    canvas.drawRect(Rect.fromLTWH(0, 0, size.x, size.y), paint);
+    if (_sprite != null) {
+      _sprite!.render(canvas, size: size);
+    } else {
+      // 장애물 그리기 (빨간 사각형)
+      final paint = Paint()..color = Colors.red;
+      canvas.drawRect(Rect.fromLTWH(0, 0, size.x, size.y), paint);
 
-    // 테두리
-    final borderPaint = Paint()
-      ..color = Colors.red.shade900
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 2;
-    canvas.drawRect(Rect.fromLTWH(0, 0, size.x, size.y), borderPaint);
+      // 테두리
+      final borderPaint = Paint()
+        ..color = Colors.red.shade900
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 2;
+      canvas.drawRect(Rect.fromLTWH(0, 0, size.x, size.y), borderPaint);
 
-    // 위험 표시 (X)
-    final xPaint = Paint()
-      ..color = Colors.yellow
-      ..strokeWidth = 3;
-    canvas.drawLine(
-      Offset(size.x * 0.2, size.y * 0.2),
-      Offset(size.x * 0.8, size.y * 0.8),
-      xPaint,
-    );
-    canvas.drawLine(
-      Offset(size.x * 0.8, size.y * 0.2),
-      Offset(size.x * 0.2, size.y * 0.8),
-      xPaint,
-    );
+      // 위험 표시 (X)
+      final xPaint = Paint()
+        ..color = Colors.yellow
+        ..strokeWidth = 3;
+      canvas.drawLine(
+        Offset(size.x * 0.2, size.y * 0.2),
+        Offset(size.x * 0.8, size.y * 0.8),
+        xPaint,
+      );
+      canvas.drawLine(
+        Offset(size.x * 0.8, size.y * 0.2),
+        Offset(size.x * 0.2, size.y * 0.8),
+        xPaint,
+      );
+    }
   }
 }

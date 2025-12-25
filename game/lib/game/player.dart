@@ -23,9 +23,16 @@ class Player extends PositionComponent
   Player({required super.position, required this.characterData})
     : super(size: Vector2(40, 60), anchor: Anchor.center);
 
+  Sprite? _displaySprite;
+
   @override
   Future<void> onLoad() async {
     add(RectangleHitbox());
+    try {
+      _displaySprite = await game.loadSprite('player.png');
+    } catch (e) {
+      debugPrint('Failed to load player sprite: $e');
+    }
   }
 
   void jump() {
@@ -126,17 +133,27 @@ class Player extends PositionComponent
   void render(Canvas canvas) {
     super.render(canvas);
 
-    // 플레이어 그리기 (파란 사각형)
-    final paint = Paint()..color = characterData.color;
-    canvas.drawRect(
-      Rect.fromLTWH(-size.x / 2, -size.y / 2, size.x, size.y),
-      paint,
-    );
-
-    // 눈 그리기
-    final eyePaint = Paint()..color = Colors.white;
-    canvas.drawCircle(Offset(-size.x / 4, -size.y / 4), 5, eyePaint);
-    canvas.drawCircle(Offset(size.x / 4, -size.y / 4), 5, eyePaint);
+    if (_displaySprite != null) {
+      _displaySprite!.render(
+        canvas,
+        size: size,
+        overridePaint: Paint()
+          ..color = characterData.color.withValues(alpha: 0.9),
+      );
+      // Overlay eyes over sprite if needed, or assume sprite has eyes.
+      // Keeping eyes for now as "character data color" might tint the sprite.
+    } else {
+      // Fallback: Blue Rectangle
+      final paint = Paint()..color = characterData.color;
+      canvas.drawRect(
+        Rect.fromLTWH(-size.x / 2, -size.y / 2, size.x, size.y),
+        paint,
+      );
+      // Eyes
+      final eyePaint = Paint()..color = Colors.white;
+      canvas.drawCircle(Offset(-size.x / 4, -size.y / 4), 5, eyePaint);
+      canvas.drawCircle(Offset(size.x / 4, -size.y / 4), 5, eyePaint);
+    }
 
     // Shield Visual
     if (hasShield) {

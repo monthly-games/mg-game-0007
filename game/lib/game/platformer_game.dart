@@ -76,6 +76,13 @@ class PlatformerGame extends FlameGame
 
     // 초기 바닥 플랫폼
     _createInitialPlatforms();
+
+    // Play BGM
+    try {
+      _audioManager.playBgm('bgm.mp3');
+    } catch (e) {
+      debugPrint('Error playing BGM: $e');
+    }
   }
 
   void _createInitialPlatforms() {
