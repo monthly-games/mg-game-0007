@@ -37,6 +37,13 @@ class GameTheme {
       platformColor: Color(0xFF8B0000), // Dark Red
       skyColor: Color(0xFFFF4500), // Orange Red
     ),
+    GameTheme(
+      id: 'space',
+      name: 'Space Nebula',
+      backgroundAsset: 'bg_space_nebula.png',
+      platformColor: Color(0xFF4B0082), // Indigo
+      skyColor: Color(0xFF000000), // Black
+    ),
   ];
 
   static GameTheme getById(String id) {

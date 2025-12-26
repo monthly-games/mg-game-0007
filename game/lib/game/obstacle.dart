@@ -4,21 +4,72 @@ import 'package:flutter/material.dart';
 import 'platformer_game.dart';
 import 'player.dart';
 import 'effects/particle_effects.dart';
+import 'package:flame/sprite.dart';
+
+enum ObstacleType { box, spike, enemy }
 
 class Obstacle extends PositionComponent
     with HasGameReference<PlatformerGame>, CollisionCallbacks {
-  Obstacle({required super.position, required super.size})
-    : super(anchor: Anchor.topLeft);
+  final ObstacleType type;
+
+  Obstacle({
+    required super.position,
+    required super.size,
+    this.type = ObstacleType.box,
+  }) : super(anchor: Anchor.topLeft);
 
   Sprite? _sprite;
+  SpriteAnimationTicker? _animationTicker;
 
   @override
   Future<void> onLoad() async {
-    add(RectangleHitbox());
+    // Hitbox adjustment based on type
+    if (type == ObstacleType.spike) {
+      add(
+        RectangleHitbox(
+          position: Vector2(0, size.y * 0.5),
+          size: Vector2(size.x, size.y * 0.5),
+        ),
+      );
+    } else {
+      add(RectangleHitbox());
+    }
+
     try {
-      _sprite = await game.loadSprite('obstacle.png');
+      if (type == ObstacleType.enemy) {
+        // Load animated sprite for enemy (3 frames on a strip)
+        final image = await game.images.load('enemy_slime.png');
+        final spriteSheet = SpriteSheet(
+          image: image,
+          srcSize: Vector2(image.width / 3, image.height.toDouble()),
+        );
+        final animation = spriteSheet.createAnimation(
+          row: 0,
+          stepTime: 0.2,
+          to: 3,
+        );
+        _animationTicker = animation.createTicker();
+      } else if (type == ObstacleType.spike) {
+        _sprite = await game.loadSprite('spike_trap.png');
+      } else {
+        _sprite = await game.loadSprite('obstacle.png');
+      }
     } catch (e) {
-      // Ignore
+      debugPrint('Failed to load asset for obstacle type $type: $e');
+    }
+  }
+
+  @override
+  void update(double dt) {
+    super.update(dt);
+    if (_animationTicker != null) {
+      _animationTicker!.update(dt);
+    }
+
+    // Simple patrol/bobbing could be added here
+    if (type == ObstacleType.enemy) {
+      // Just move with the scroll, maybe bob up and down later?
+      // Current game logic moves the obstacle via PlatformerGame update loop.
     }
   }
 
@@ -30,7 +81,6 @@ class Obstacle extends PositionComponent
     super.onCollisionStart(intersectionPoints, other);
     if (other is Player) {
       if (other.hasShield) {
-        // Shield blocks collision
         other.hasShield = false;
         game.add(
           CollisionParticleEffect(
@@ -40,18 +90,14 @@ class Obstacle extends PositionComponent
           ),
         );
         removeFromParent();
-        // Play shield break sound? Using 'jump.wav' as placeholder or 'land.wav'
-        // Better to have unique sound.
         return;
       }
 
-      // Add collision particle effect
       final collisionPoint = intersectionPoints.isNotEmpty
           ? intersectionPoints.first
           : Vector2(position.x + size.x / 2, position.y + size.y / 2);
       game.add(CollisionParticleEffect(position: collisionPoint));
 
-      // 플레이어와 충돌 시 게임 오버
       game.endGame();
     }
   }
@@ -60,34 +106,17 @@ class Obstacle extends PositionComponent
   void render(Canvas canvas) {
     super.render(canvas);
 
-    if (_sprite != null) {
+    if (_animationTicker != null) {
+      _animationTicker!.getSprite().render(canvas, size: size);
+    } else if (_sprite != null) {
       _sprite!.render(canvas, size: size);
     } else {
-      // 장애물 그리기 (빨간 사각형)
-      final paint = Paint()..color = Colors.red;
+      // Fallback rendering
+      final paint = Paint()
+        ..color = type == ObstacleType.spike
+            ? Colors.grey
+            : (type == ObstacleType.enemy ? Colors.purple : Colors.red);
       canvas.drawRect(Rect.fromLTWH(0, 0, size.x, size.y), paint);
-
-      // 테두리
-      final borderPaint = Paint()
-        ..color = Colors.red.shade900
-        ..style = PaintingStyle.stroke
-        ..strokeWidth = 2;
-      canvas.drawRect(Rect.fromLTWH(0, 0, size.x, size.y), borderPaint);
-
-      // 위험 표시 (X)
-      final xPaint = Paint()
-        ..color = Colors.yellow
-        ..strokeWidth = 3;
-      canvas.drawLine(
-        Offset(size.x * 0.2, size.y * 0.2),
-        Offset(size.x * 0.8, size.y * 0.8),
-        xPaint,
-      );
-      canvas.drawLine(
-        Offset(size.x * 0.8, size.y * 0.2),
-        Offset(size.x * 0.2, size.y * 0.8),
-        xPaint,
-      );
     }
   }
 }

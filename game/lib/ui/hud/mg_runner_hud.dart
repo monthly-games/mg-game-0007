@@ -49,6 +49,23 @@ class MGRunnerHud extends StatelessWidget {
                   color: Colors.white,
                 ),
 
+                // Life Display (Heart Icons)
+                Container(
+                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    color: Colors.black45,
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Image.asset(
+                    'assets/images/icon_heart.png',
+                    height: 24, // Assuming 8px height * 3 scale
+                    fit: BoxFit
+                        .contain, // Shows all 3 hearts (Full, Half, Empty) as a "Life Bar" style?
+                    // actually the sheet has [Full, Half, Empty]. Using it as "Health Bar" static image is fine for now.
+                    // It looks like: ❤️ 💔 ♡
+                  ),
+                ),
+
                 // 점수 표시
                 _buildScoreDisplay(),
 
@@ -85,8 +102,10 @@ class MGRunnerHud extends StatelessWidget {
                 right: safeArea.right + MGSpacing.hudMargin,
               ),
               child: Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 8,
+                ),
                 decoration: BoxDecoration(
                   color: Colors.black54,
                   borderRadius: BorderRadius.circular(12),
@@ -117,21 +136,27 @@ class MGRunnerHud extends StatelessWidget {
 
   Widget _buildScoreDisplay() {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-      decoration: BoxDecoration(
-        color: Colors.black54,
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(
-          color: MGColors.warning.withValues(alpha: 0.5),
-          width: 2,
+      padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 16),
+      decoration: const BoxDecoration(
+        image: DecorationImage(
+          image: AssetImage('assets/images/ui_panel.png'),
+          fit: BoxFit.fill,
+          // centerSlice seems safer if we knew exact insets, but fill works for now
         ),
       ),
       child: Text(
         '$score',
         style: MGTextStyles.display.copyWith(
-          color: Colors.white,
+          color: const Color(0xFFF4D03F), // Gold text color matching retro feel
           fontWeight: FontWeight.bold,
-          fontSize: 36,
+          fontSize: 32,
+          shadows: [
+            const Shadow(
+              offset: Offset(2, 2),
+              blurRadius: 0,
+              color: Colors.black,
+            ),
+          ],
         ),
       ),
     );
@@ -147,11 +172,7 @@ class MGRunnerHud extends StatelessWidget {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          const Icon(
-            Icons.directions_run,
-            color: Colors.lightBlue,
-            size: 20,
-          ),
+          const Icon(Icons.directions_run, color: Colors.lightBlue, size: 20),
           MGSpacing.hXs,
           Text(
             '${_formatNumber(distance)}m',

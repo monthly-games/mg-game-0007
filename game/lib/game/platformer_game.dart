@@ -202,10 +202,30 @@ class PlatformerGame extends FlameGame
     // 바닥 위의 장애물만 생성
     final groundY = size.y - 50;
 
+    final rand = _random.nextDouble();
+    ObstacleType type;
+    Vector2 obstacleSize;
+    double yOffset;
+
+    if (rand < 0.4) {
+      type = ObstacleType.box;
+      obstacleSize = Vector2(30, 40);
+      yOffset = 40;
+    } else if (rand < 0.7) {
+      type = ObstacleType.spike;
+      obstacleSize = Vector2(40, 20); // Width 2 spikes (20x2), Height 20
+      yOffset = 20;
+    } else {
+      type = ObstacleType.enemy;
+      obstacleSize = Vector2(40, 40);
+      yOffset = 40;
+    }
+
     add(
       Obstacle(
-        position: Vector2(size.x + 50, groundY - 40), // 장애물 높이 40
-        size: Vector2(30, 40),
+        position: Vector2(size.x + 50, groundY - yOffset),
+        size: obstacleSize,
+        type: type,
       ),
     );
   }

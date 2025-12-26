@@ -16,9 +16,23 @@ class Collectible extends PositionComponent
   Collectible({required super.position, required this.type})
     : super(size: Vector2(30, 30), anchor: Anchor.center);
 
+  Sprite? _sprite;
+
   @override
   Future<void> onLoad() async {
     add(CircleHitbox());
+    try {
+      if (type == CollectibleType.coin || type == CollectibleType.doubleCoin) {
+        _sprite = await game.loadSprite('icon_star.png');
+      }
+      // Keep using shapes for Magnet/Shield for now, or use Star with color?
+      // Let's use Star for all for consistency, but tinted.
+      if (_sprite == null) {
+        _sprite = await game.loadSprite('icon_star.png');
+      }
+    } catch (e) {
+      debugPrint('Failed to load collectible sprite: $e');
+    }
   }
 
   @override
@@ -77,54 +91,31 @@ class Collectible extends PositionComponent
   void render(Canvas canvas) {
     super.render(canvas);
 
-    final paint = Paint()..style = PaintingStyle.fill;
+    if (_sprite != null) {
+      final paint = Paint()..color = Colors.white;
 
-    switch (type) {
-      case CollectibleType.coin:
-        paint.color = Colors.amber;
-        canvas.drawCircle(Offset(size.x / 2, size.y / 2), size.x / 2, paint);
-        // Inner detail
-        paint.color = Colors.amberAccent;
-        canvas.drawCircle(
-          Offset(size.x / 2, size.y / 2),
-          size.x / 2 * 0.7,
-          paint,
-        );
-        break;
-      case CollectibleType.magnet:
-        paint.color = Colors.red;
-        // Draw U shape roughly
-        final path = Path()
-          ..moveTo(size.x * 0.2, size.y * 0.2)
-          ..lineTo(size.x * 0.2, size.y * 0.7)
-          ..quadraticBezierTo(size.x * 0.5, size.y, size.x * 0.8, size.y * 0.7)
-          ..lineTo(size.x * 0.8, size.y * 0.2);
+      switch (type) {
+        case CollectibleType.coin:
+          paint.color = Colors.white; // Original color
+          break;
+        case CollectibleType.magnet:
+          paint.color = Colors.red;
+          break;
+        case CollectibleType.shield:
+          paint.color = Colors.cyan;
+          break;
+        case CollectibleType.doubleCoin:
+          paint.color = Colors.green;
+          break;
+      }
 
-        paint.style = PaintingStyle.stroke;
-        paint.strokeWidth = 5;
-        canvas.drawPath(path, paint);
-        break;
-      case CollectibleType.shield:
-        paint.color = Colors.blue;
-        paint.style = PaintingStyle.stroke;
-        paint.strokeWidth = 3;
-        canvas.drawCircle(Offset(size.x / 2, size.y / 2), size.x / 2, paint);
-        paint.style = PaintingStyle.fill;
-        paint.color = Colors.blue.withValues(alpha: 0.3);
-        canvas.drawCircle(Offset(size.x / 2, size.y / 2), size.x / 2, paint);
-        break;
-      case CollectibleType.doubleCoin:
-        paint.color = Colors.green;
-        canvas.drawCircle(Offset(size.x / 2, size.y / 2), size.x / 2, paint);
-        final tp = TextPaint(
-          style: const TextStyle(
-            color: Colors.white,
-            fontSize: 14,
-            fontWeight: FontWeight.bold,
-          ),
-        );
-        tp.render(canvas, "x2", Vector2(size.x * 0.2, size.y * 0.2));
-        break;
+      // Render sprite with tint
+      _sprite!.render(canvas, size: size, overridePaint: paint);
+    } else {
+      // Fallback
+      final paint = Paint()..style = PaintingStyle.fill;
+      paint.color = Colors.amber;
+      canvas.drawCircle(Offset(size.x / 2, size.y / 2), size.x / 2, paint);
     }
   }
 }
