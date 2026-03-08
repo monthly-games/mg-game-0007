@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mg_common_game/core/ui/theme/mg_colors.dart';
 
 class GameTheme {
   final String id;
@@ -12,7 +13,7 @@ class GameTheme {
     required this.name,
     required this.backgroundAsset,
     required this.platformColor,
-    this.skyColor = Colors.blue,
+    this.skyColor = MGColors.info,
   });
 
   static const List<GameTheme> defaultThemes = [
@@ -20,7 +21,7 @@ class GameTheme {
       id: 'farm',
       name: 'Sunny Farm',
       backgroundAsset: 'bg_farm.png',
-      platformColor: Color(0xFF8B4513), // Saddle Brown
+      platformColor: MGColors.warning, // Saddle Brown
       skyColor: Color(0xFF87CEEB),
     ),
     GameTheme(

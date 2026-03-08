@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mg_common_game/core/ui/theme/mg_colors.dart';
 
 class CharacterData {
   final String id;
@@ -17,14 +18,14 @@ class CharacterData {
     CharacterData(
       id: 'blue',
       name: 'Original Blue',
-      color: Colors.blue,
+      color: MGColors.info,
       cost: 0,
     ),
-    CharacterData(id: 'red', name: 'Speedy Red', color: Colors.red, cost: 100),
+    CharacterData(id: 'red', name: 'Speedy Red', color: MGColors.error, cost: 100),
     CharacterData(
       id: 'green',
       name: 'Lucky Green',
-      color: Colors.green,
+      color: MGColors.success,
       cost: 250,
     ),
     CharacterData(

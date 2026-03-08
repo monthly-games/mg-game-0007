@@ -15,6 +15,7 @@ import 'package:flame/parallax.dart';
 import 'character_manager.dart';
 import 'theme_manager.dart';
 import '../utils/high_score_manager.dart';
+import 'package:mg_common_game/core/ui/theme/mg_colors.dart';
 
 enum PlatformerGameMode { endless, timeAttack }
 
@@ -334,7 +335,7 @@ class PlatformerGame extends FlameGame
     // 점수 표시
     final textPaint = TextPaint(
       style: const TextStyle(
-        color: Colors.white,
+        color: MGColors.textHighEmphasis,
         fontSize: 32,
         fontWeight: FontWeight.bold,
         shadows: [
@@ -378,7 +379,7 @@ class PlatformerGame extends FlameGame
     if (mode == PlatformerGameMode.timeAttack) {
       final timerPaint = TextPaint(
         style: TextStyle(
-          color: remainingTime <= 10 ? Colors.red : Colors.white,
+          color: remainingTime <= 10 ? MGColors.error : MGColors.textHighEmphasis,
           fontSize: 32,
           fontWeight: FontWeight.bold,
           shadows: const [
@@ -397,7 +398,7 @@ class PlatformerGame extends FlameGame
     if (gameOver) {
       final gameOverPaint = TextPaint(
         style: const TextStyle(
-          color: Colors.red,
+          color: MGColors.error,
           fontSize: 64,
           fontWeight: FontWeight.bold,
           shadows: [
@@ -419,7 +420,7 @@ class PlatformerGame extends FlameGame
 
       final scorePaint = TextPaint(
         style: const TextStyle(
-          color: Colors.white,
+          color: MGColors.textHighEmphasis,
           fontSize: 32,
           shadows: [
             Shadow(offset: Offset(2, 2), blurRadius: 3, color: Colors.black),
@@ -435,7 +436,7 @@ class PlatformerGame extends FlameGame
 
       final tapPaint = TextPaint(
         style: const TextStyle(
-          color: Colors.white,
+          color: MGColors.textHighEmphasis,
           fontSize: 24,
           shadows: [
             Shadow(offset: Offset(2, 2), blurRadius: 3, color: Colors.black),
@@ -472,7 +473,7 @@ class PlatformerGame extends FlameGame
     if (!gameStarted && !gameOver) {
       final startPaint = TextPaint(
         style: const TextStyle(
-          color: Colors.white,
+          color: MGColors.textHighEmphasis,
           fontSize: 32,
           shadows: [
             Shadow(offset: Offset(2, 2), blurRadius: 3, color: Colors.black),

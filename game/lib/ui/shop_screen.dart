@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mg_common_game/core/economy/gold_manager.dart';
 import '../game/iap_manager.dart';
+import 'package:mg_common_game/core/ui/theme/mg_colors.dart';
 
 class ShopScreen extends StatefulWidget {
   final VoidCallback onClose;
@@ -40,7 +41,7 @@ class _ShopScreenState extends State<ShopScreen> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text('Purchased $title successfully!'),
-            backgroundColor: Colors.green,
+            backgroundColor: MGColors.success,
           ),
         );
       } else {
@@ -51,7 +52,7 @@ class _ShopScreenState extends State<ShopScreen> {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text('Failed to purchase $title'),
-          backgroundColor: Colors.red,
+          backgroundColor: MGColors.error,
         ),
       );
     } finally {
@@ -64,10 +65,10 @@ class _ShopScreenState extends State<ShopScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: MGColors.textHighEmphasis,
       appBar: AppBar(
         title: const Text('Shop', style: TextStyle(color: Colors.black)),
-        backgroundColor: Colors.white,
+        backgroundColor: MGColors.textHighEmphasis,
         elevation: 0,
         leading: IconButton(
           icon: const Icon(Icons.close, color: Colors.black),
@@ -90,14 +91,14 @@ class _ShopScreenState extends State<ShopScreen> {
                   children: [
                     const Icon(
                       Icons.monetization_on,
-                      color: Colors.white,
+                      color: MGColors.textHighEmphasis,
                       size: 20,
                     ),
                     const SizedBox(width: 4),
                     Text(
                       '${_goldManager.currentGold}',
                       style: const TextStyle(
-                        color: Colors.white,
+                        color: MGColors.textHighEmphasis,
                         fontWeight: FontWeight.bold,
                         fontSize: 16,
                       ),
@@ -150,7 +151,7 @@ class _ShopScreenState extends State<ShopScreen> {
                   description: '5,500 Gold Coins',
                   price: '\$4.99',
                   icon: Icons.savings,
-                  color: Colors.orange,
+                  color: MGColors.warning,
                   isPopular: true,
                   onTap: () =>
                       _handlePurchase('Pouch of Gold', 'coins_medium', 5500),
@@ -203,7 +204,7 @@ class _ShopScreenState extends State<ShopScreen> {
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: MGColors.textHighEmphasis,
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
@@ -212,7 +213,7 @@ class _ShopScreenState extends State<ShopScreen> {
             offset: const Offset(0, 4),
           ),
         ],
-        border: isPopular ? Border.all(color: Colors.orange, width: 2) : null,
+        border: isPopular ? Border.all(color: MGColors.warning, width: 2) : null,
       ),
       child: Material(
         color: Colors.transparent,
@@ -245,13 +246,13 @@ class _ShopScreenState extends State<ShopScreen> {
                             vertical: 2,
                           ),
                           decoration: BoxDecoration(
-                            color: Colors.orange,
+                            color: MGColors.warning,
                             borderRadius: BorderRadius.circular(4),
                           ),
                           child: const Text(
                             'MOST POPULAR',
                             style: TextStyle(
-                              color: Colors.white,
+                              color: MGColors.textHighEmphasis,
                               fontSize: 10,
                               fontWeight: FontWeight.bold,
                             ),
@@ -283,7 +284,7 @@ class _ShopScreenState extends State<ShopScreen> {
                   child: Text(
                     price,
                     style: const TextStyle(
-                      color: Colors.white,
+                      color: MGColors.textHighEmphasis,
                       fontWeight: FontWeight.bold,
                     ),
                   ),

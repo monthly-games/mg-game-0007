@@ -9,6 +9,7 @@ import 'effects/particle_effects.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mg_common_game/core/audio/audio_manager.dart';
 import 'character_data.dart';
+import 'package:mg_common_game/core/ui/theme/mg_colors.dart';
 
 class Player extends PositionComponent
     with HasGameReference<PlatformerGame>, CollisionCallbacks {
@@ -150,7 +151,7 @@ class Player extends PositionComponent
         paint,
       );
       // Eyes
-      final eyePaint = Paint()..color = Colors.white;
+      final eyePaint = Paint()..color = MGColors.textHighEmphasis;
       canvas.drawCircle(Offset(-size.x / 4, -size.y / 4), 5, eyePaint);
       canvas.drawCircle(Offset(size.x / 4, -size.y / 4), 5, eyePaint);
     }
@@ -167,7 +168,7 @@ class Player extends PositionComponent
     // Magnet Visual
     if (magnetTimer > 0) {
       final magPaint = Paint()
-        ..color = Colors.red.withValues(alpha: 0.3)
+        ..color = MGColors.error.withValues(alpha: 0.3)
         ..style = PaintingStyle.stroke;
       canvas.drawCircle(Offset.zero, size.x, magPaint);
     }

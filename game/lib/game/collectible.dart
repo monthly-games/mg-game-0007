@@ -5,6 +5,7 @@ import 'platformer_game.dart';
 import 'player.dart';
 import 'package:mg_common_game/core/audio/audio_manager.dart';
 import 'package:get_it/get_it.dart';
+import 'package:mg_common_game/core/ui/theme/mg_colors.dart';
 
 enum CollectibleType { coin, magnet, shield, doubleCoin }
 
@@ -92,20 +93,20 @@ class Collectible extends PositionComponent
     super.render(canvas);
 
     if (_sprite != null) {
-      final paint = Paint()..color = Colors.white;
+      final paint = Paint()..color = MGColors.textHighEmphasis;
 
       switch (type) {
         case CollectibleType.coin:
-          paint.color = Colors.white; // Original color
+          paint.color = MGColors.textHighEmphasis; // Original color
           break;
         case CollectibleType.magnet:
-          paint.color = Colors.red;
+          paint.color = MGColors.error;
           break;
         case CollectibleType.shield:
           paint.color = Colors.cyan;
           break;
         case CollectibleType.doubleCoin:
-          paint.color = Colors.green;
+          paint.color = MGColors.success;
           break;
       }
 

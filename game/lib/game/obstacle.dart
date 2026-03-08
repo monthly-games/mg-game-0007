@@ -5,6 +5,7 @@ import 'platformer_game.dart';
 import 'player.dart';
 import 'effects/particle_effects.dart';
 import 'package:flame/sprite.dart';
+import 'package:mg_common_game/core/ui/theme/mg_colors.dart';
 
 enum ObstacleType { box, spike, enemy }
 
@@ -114,8 +115,8 @@ class Obstacle extends PositionComponent
       // Fallback rendering
       final paint = Paint()
         ..color = type == ObstacleType.spike
-            ? Colors.grey
-            : (type == ObstacleType.enemy ? Colors.purple : Colors.red);
+            ? MGColors.common
+            : (type == ObstacleType.enemy ? Colors.purple : MGColors.error);
       canvas.drawRect(Rect.fromLTWH(0, 0, size.x, size.y), paint);
     }
   }

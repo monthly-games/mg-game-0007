@@ -26,6 +26,7 @@ import '../game/character_data.dart';
 import '../game/theme_manager.dart';
 import '../game/theme_data.dart';
 import 'shop_screen.dart';
+import 'package:mg_common_game/core/ui/theme/mg_colors.dart';
 
 class MainMenu extends StatefulWidget {
   const MainMenu({super.key});
@@ -64,7 +65,7 @@ class _MainMenuState extends State<MainMenu> {
                           style: TextStyle(
                             fontSize: 64,
                             fontWeight: FontWeight.bold,
-                            color: Colors.white,
+                            color: MGColors.textHighEmphasis,
                             shadows: [
                               Shadow(
                                 offset: Offset(4, 4),
@@ -106,7 +107,7 @@ class _MainMenuState extends State<MainMenu> {
                           title: 'ENDLESS RUN',
                           description: 'Run as far as you can!',
                           icon: Icons.directions_run,
-                          color: Colors.green,
+                          color: MGColors.success,
                           onTap: () =>
                               _startGame(context, PlatformerGameMode.endless),
                           highScoreFuture: HighScoreManager.getHighScore(
@@ -117,7 +118,7 @@ class _MainMenuState extends State<MainMenu> {
                           title: 'TIME ATTACK',
                           description: 'Race against the clock!',
                           icon: Icons.timer,
-                          color: Colors.red,
+                          color: MGColors.error,
                           onTap: () => _startGame(
                             context,
                             PlatformerGameMode.timeAttack,
@@ -243,9 +244,9 @@ class _MainMenuState extends State<MainMenu> {
       children: [
         IconButton(
           onPressed: onTap,
-          icon: Icon(icon, color: Colors.white, size: 32),
+          icon: Icon(icon, color: MGColors.textHighEmphasis, size: 32),
           style: IconButton.styleFrom(
-            backgroundColor: Colors.white.withValues(alpha: 0.2),
+            backgroundColor: MGColors.textHighEmphasis.withValues(alpha: 0.2),
             padding: const EdgeInsets.all(12),
           ),
         ),
@@ -253,7 +254,7 @@ class _MainMenuState extends State<MainMenu> {
         Text(
           label,
           style: const TextStyle(
-            color: Colors.white,
+            color: MGColors.textHighEmphasis,
             fontSize: 12,
             fontWeight: FontWeight.w500,
           ),
@@ -285,7 +286,7 @@ class _MainMenuState extends State<MainMenu> {
       builder: (context) => AlertDialog(
         title: const Row(
           children: [
-            Icon(Icons.help_outline, color: Colors.orange),
+            Icon(Icons.help_outline, color: MGColors.warning),
             SizedBox(width: 8),
             Text('How to Play'),
           ],
@@ -500,7 +501,7 @@ class _MainMenuState extends State<MainMenu> {
         maxChildSize: 0.8,
         builder: (_, controller) => Container(
           decoration: const BoxDecoration(
-            color: Colors.white,
+            color: MGColors.textHighEmphasis,
             borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
           ),
           padding: const EdgeInsets.all(24),
@@ -587,14 +588,14 @@ class _MainMenuState extends State<MainMenu> {
                                   decoration: BoxDecoration(
                                     color: isUnlocked
                                         ? character.color
-                                        : Colors.grey,
+                                        : MGColors.common,
                                     shape: BoxShape.circle,
                                     boxShadow: [
                                       BoxShadow(
                                         color:
                                             (isUnlocked
                                                     ? character.color
-                                                    : Colors.grey)
+                                                    : MGColors.common)
                                                 .withValues(alpha: 0.4),
                                         blurRadius: 12,
                                         offset: const Offset(0, 4),
@@ -604,7 +605,7 @@ class _MainMenuState extends State<MainMenu> {
                                   child: isSelected
                                       ? const Icon(
                                           Icons.check,
-                                          color: Colors.white,
+                                          color: MGColors.textHighEmphasis,
                                           size: 32,
                                         )
                                       : null,
@@ -634,13 +635,13 @@ class _MainMenuState extends State<MainMenu> {
                                         const Icon(
                                           Icons.monetization_on,
                                           size: 14,
-                                          color: Colors.white,
+                                          color: MGColors.textHighEmphasis,
                                         ),
                                         const SizedBox(width: 4),
                                         Text(
                                           '${character.cost}',
                                           style: const TextStyle(
-                                            color: Colors.white,
+                                            color: MGColors.textHighEmphasis,
                                             fontWeight: FontWeight.bold,
                                             fontSize: 12,
                                           ),
@@ -676,7 +677,7 @@ class _MainMenuState extends State<MainMenu> {
         maxChildSize: 0.7,
         builder: (_, controller) => Container(
           decoration: const BoxDecoration(
-            color: Colors.white,
+            color: MGColors.textHighEmphasis,
             borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
           ),
           padding: const EdgeInsets.all(24),
@@ -750,7 +751,7 @@ class _MainMenuState extends State<MainMenu> {
                                 if (isSelected)
                                   const Icon(
                                     Icons.check_circle,
-                                    color: Colors.green,
+                                    color: MGColors.success,
                                   ),
                               ],
                             ),
@@ -801,7 +802,7 @@ class GameModeCard extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: MGColors.textHighEmphasis,
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
@@ -875,13 +876,13 @@ class GameModeCard extends StatelessWidget {
                               const Icon(
                                 Icons.emoji_events,
                                 size: 16,
-                                color: Colors.orange,
+                                color: MGColors.warning,
                               ),
                               Text(
                                 '${snapshot.data}',
                                 style: const TextStyle(
                                   fontWeight: FontWeight.bold,
-                                  color: Colors.orange,
+                                  color: MGColors.warning,
                                 ),
                               ),
                             ],

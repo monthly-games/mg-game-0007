@@ -46,7 +46,7 @@ class MGRunnerHud extends StatelessWidget {
                   onPressed: isPaused ? onResume : onPause,
                   size: 44,
                   backgroundColor: Colors.black54,
-                  color: Colors.white,
+                  color: MGColors.textHighEmphasis,
                 ),
 
                 // Life Display (Heart Icons)
@@ -177,7 +177,7 @@ class MGRunnerHud extends StatelessWidget {
           Text(
             '${_formatNumber(distance)}m',
             style: MGTextStyles.hud.copyWith(
-              color: Colors.white,
+              color: MGColors.textHighEmphasis,
               fontWeight: FontWeight.bold,
             ),
           ),
