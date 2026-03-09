@@ -11,7 +11,6 @@ class MGRunnerHud extends StatelessWidget {
   final bool isPaused;
   final VoidCallback? onPause;
   final VoidCallback? onResume;
-  final VoidCallback? onDailyHub;
 
   const MGRunnerHud({
     super.key,
@@ -22,7 +21,6 @@ class MGRunnerHud extends StatelessWidget {
     this.isPaused = false,
     this.onPause,
     this.onResume,
-    this.onDailyHub,
   });
 
   @override
@@ -43,16 +41,6 @@ class MGRunnerHud extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 // 일시정지 버튼
-        if (onDailyHub != null)
-          MGIconButton(
-            icon: Icons.calendar_today,
-            onPressed: onDailyHub,
-            size: 44,
-            backgroundColor: MGColors.info.withValues(alpha: 0.8),
-            color: MGColors.textHighEmphasis,
-            tooltip: 'Daily Hub',
-          ),
-        MGSpacing.hXs,
                 MGIconButton(
                   icon: isPaused ? Icons.play_arrow : Icons.pause,
                   onPressed: isPaused ? onResume : onPause,
