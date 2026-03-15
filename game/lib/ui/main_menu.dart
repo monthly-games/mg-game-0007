@@ -701,7 +701,7 @@ class _MainMenuState extends State<MainMenu> {
                     return ListView.separated(
                       controller: controller,
                       itemCount: GameTheme.defaultThemes.length,
-                      separatorBuilder: (_, _) => const SizedBox(height: 12),
+                      separatorBuilder: (_, __) => const SizedBox(height: 12),
                       itemBuilder: (context, index) {
                         final theme = GameTheme.defaultThemes[index];
                         final isSelected =
