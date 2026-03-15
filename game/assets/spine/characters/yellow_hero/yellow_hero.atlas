@@ -1,0 +1,52 @@
+body.png
+size: 902,862
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+body
+  rotate: false
+  xy: 0, 0
+  size: 902, 862
+  orig: 902, 862
+  offset: 0, 0
+  index: -1
+
+head.png
+size: 138,136
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+head
+  rotate: false
+  xy: 0, 0
+  size: 138, 136
+  orig: 138, 136
+  offset: 0, 0
+  index: -1
+
+leg_R.png
+size: 138,311
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+leg_R
+  rotate: false
+  xy: 0, 0
+  size: 138, 311
+  orig: 138, 311
+  offset: 0, 0
+  index: -1
+
+weapon.png
+size: 245,64
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+weapon
+  rotate: false
+  xy: 0, 0
+  size: 245, 64
+  orig: 245, 64
+  offset: 0, 0
+  index: -1
+

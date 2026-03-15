@@ -1,4 +1,5 @@
 /// VFX Manager for MG-0007 Endless Runner
+library;
 import 'package:flame/components.dart';
 import 'package:flutter/material.dart';
 import 'package:mg_common_game/core/engine/effects/flame_effects.dart';

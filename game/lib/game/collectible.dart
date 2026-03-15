@@ -28,9 +28,7 @@ class Collectible extends PositionComponent
       }
       // Keep using shapes for Magnet/Shield for now, or use Star with color?
       // Let's use Star for all for consistency, but tinted.
-      if (_sprite == null) {
-        _sprite = await game.loadSprite('icon_star.png');
-      }
+      _sprite ??= await game.loadSprite('icon_star.png');
     } catch (e) {
       debugPrint('Failed to load collectible sprite: $e');
     }

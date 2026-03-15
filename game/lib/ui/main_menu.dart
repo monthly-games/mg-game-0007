@@ -701,7 +701,7 @@ class _MainMenuState extends State<MainMenu> {
                     return ListView.separated(
                       controller: controller,
                       itemCount: GameTheme.defaultThemes.length,
-                      separatorBuilder: (_, __) => const SizedBox(height: 12),
+                      separatorBuilder: (_, _) => const SizedBox(height: 12),
                       itemBuilder: (context, index) {
                         final theme = GameTheme.defaultThemes[index];
                         final isSelected =
@@ -956,16 +956,13 @@ class _GameScreenState extends State<GameScreen> {
                   onResume: null,
                   onDailyHub: () => Navigator.of(context).pushNamed('/daily-hub'),
                   onGuildWar: () {
-                    game.pauseEngine();
-                    Navigator.of(context).pushNamed('/guild-war').then((_) => game.resumeEngine());
+Navigator.of(context).pushNamed('/guild-war');
                   },
                   onTournament: () {
-                    game.pauseEngine();
-                    Navigator.of(context).pushNamed('/tournament').then((_) => game.resumeEngine());
+Navigator.of(context).pushNamed('/tournament');
                   },
                   onSeasonalEvent: () {
-                    game.pauseEngine();
-                    Navigator.of(context).pushNamed('/seasonal-event').then((_) => game.resumeEngine());
+Navigator.of(context).pushNamed('/seasonal-event');
                   },
                 );
               },

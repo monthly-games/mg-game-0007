@@ -2,7 +2,7 @@
 library;
 
 import 'package:flutter/foundation.dart';
-import 'package:mg_common_game/systems/gacha/gacha_config.dart';
+import 'package:mg_common_game/systems/gacha/gacha_pool.dart';
 import 'package:mg_common_game/systems/gacha/gacha_manager.dart';
 
 /// 게임 내 Seed 모델
@@ -42,7 +42,7 @@ class SeedGachaAdapter extends ChangeNotifier {
   void _initPool() {
     final pool = GachaPool(
       id: _poolId,
-      name: 'Pixel Farm Tycoon 가챠',
+      nameKr: 'Pixel Farm Tycoon 가챠',
       items: _generateItems(),
       startDate: DateTime.now().subtract(const Duration(days: 1)),
       endDate: DateTime.now().add(const Duration(days: 365)),
@@ -53,30 +53,30 @@ class SeedGachaAdapter extends ChangeNotifier {
   List<GachaItem> _generateItems() {
     return [
       // UR (0.6%)
-      GachaItem(id: 'ur_farm_001', name: '전설의 Seed', rarity: GachaRarity.ultraRare, weight: 1.0),
-      GachaItem(id: 'ur_farm_002', name: '신화의 Seed', rarity: GachaRarity.ultraRare, weight: 1.0),
+      const GachaItem(id: 'ur_farm_001', nameKr: '전설의 Seed', rarity: GachaRarity.ultraRare),
+      const GachaItem(id: 'ur_farm_002', nameKr: '신화의 Seed', rarity: GachaRarity.ultraRare),
       // SSR (2.4%)
-      GachaItem(id: 'ssr_farm_001', name: '영웅의 Seed', rarity: GachaRarity.superSuperRare, weight: 1.0),
-      GachaItem(id: 'ssr_farm_002', name: '고대의 Seed', rarity: GachaRarity.superSuperRare, weight: 1.0),
-      GachaItem(id: 'ssr_farm_003', name: '황금의 Seed', rarity: GachaRarity.superSuperRare, weight: 1.0),
+      const GachaItem(id: 'ssr_farm_001', nameKr: '영웅의 Seed', rarity: GachaRarity.superRare),
+      const GachaItem(id: 'ssr_farm_002', nameKr: '고대의 Seed', rarity: GachaRarity.superRare),
+      const GachaItem(id: 'ssr_farm_003', nameKr: '황금의 Seed', rarity: GachaRarity.superRare),
       // SR (12%)
-      GachaItem(id: 'sr_farm_001', name: '희귀한 Seed A', rarity: GachaRarity.superRare, weight: 1.0),
-      GachaItem(id: 'sr_farm_002', name: '희귀한 Seed B', rarity: GachaRarity.superRare, weight: 1.0),
-      GachaItem(id: 'sr_farm_003', name: '희귀한 Seed C', rarity: GachaRarity.superRare, weight: 1.0),
-      GachaItem(id: 'sr_farm_004', name: '희귀한 Seed D', rarity: GachaRarity.superRare, weight: 1.0),
+      const GachaItem(id: 'sr_farm_001', nameKr: '희귀한 Seed A', rarity: GachaRarity.superRare),
+      const GachaItem(id: 'sr_farm_002', nameKr: '희귀한 Seed B', rarity: GachaRarity.superRare),
+      const GachaItem(id: 'sr_farm_003', nameKr: '희귀한 Seed C', rarity: GachaRarity.superRare),
+      const GachaItem(id: 'sr_farm_004', nameKr: '희귀한 Seed D', rarity: GachaRarity.superRare),
       // R (35%)
-      GachaItem(id: 'r_farm_001', name: '우수한 Seed A', rarity: GachaRarity.rare, weight: 1.0),
-      GachaItem(id: 'r_farm_002', name: '우수한 Seed B', rarity: GachaRarity.rare, weight: 1.0),
-      GachaItem(id: 'r_farm_003', name: '우수한 Seed C', rarity: GachaRarity.rare, weight: 1.0),
-      GachaItem(id: 'r_farm_004', name: '우수한 Seed D', rarity: GachaRarity.rare, weight: 1.0),
-      GachaItem(id: 'r_farm_005', name: '우수한 Seed E', rarity: GachaRarity.rare, weight: 1.0),
+      const GachaItem(id: 'r_farm_001', nameKr: '우수한 Seed A', rarity: GachaRarity.rare),
+      const GachaItem(id: 'r_farm_002', nameKr: '우수한 Seed B', rarity: GachaRarity.rare),
+      const GachaItem(id: 'r_farm_003', nameKr: '우수한 Seed C', rarity: GachaRarity.rare),
+      const GachaItem(id: 'r_farm_004', nameKr: '우수한 Seed D', rarity: GachaRarity.rare),
+      const GachaItem(id: 'r_farm_005', nameKr: '우수한 Seed E', rarity: GachaRarity.rare),
       // N (50%)
-      GachaItem(id: 'n_farm_001', name: '일반 Seed A', rarity: GachaRarity.normal, weight: 1.0),
-      GachaItem(id: 'n_farm_002', name: '일반 Seed B', rarity: GachaRarity.normal, weight: 1.0),
-      GachaItem(id: 'n_farm_003', name: '일반 Seed C', rarity: GachaRarity.normal, weight: 1.0),
-      GachaItem(id: 'n_farm_004', name: '일반 Seed D', rarity: GachaRarity.normal, weight: 1.0),
-      GachaItem(id: 'n_farm_005', name: '일반 Seed E', rarity: GachaRarity.normal, weight: 1.0),
-      GachaItem(id: 'n_farm_006', name: '일반 Seed F', rarity: GachaRarity.normal, weight: 1.0),
+      const GachaItem(id: 'n_farm_001', nameKr: '일반 Seed A', rarity: GachaRarity.normal),
+      const GachaItem(id: 'n_farm_002', nameKr: '일반 Seed B', rarity: GachaRarity.normal),
+      const GachaItem(id: 'n_farm_003', nameKr: '일반 Seed C', rarity: GachaRarity.normal),
+      const GachaItem(id: 'n_farm_004', nameKr: '일반 Seed D', rarity: GachaRarity.normal),
+      const GachaItem(id: 'n_farm_005', nameKr: '일반 Seed E', rarity: GachaRarity.normal),
+      const GachaItem(id: 'n_farm_006', nameKr: '일반 Seed F', rarity: GachaRarity.normal),
     ];
   }
 
@@ -98,7 +98,7 @@ class SeedGachaAdapter extends ChangeNotifier {
   Seed _convertToItem(GachaItem item) {
     return Seed(
       id: item.id,
-      name: item.name,
+      name: item.nameKr,
       rarity: item.rarity,
     );
   }
