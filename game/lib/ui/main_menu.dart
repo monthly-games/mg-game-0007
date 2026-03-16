@@ -45,7 +45,7 @@ class _MainMenuState extends State<MainMenu> {
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
             colors: [
-              Color(0xFFFF6B35), // Orange
+              MGColors.orangeRed, // Orange
               Color(0xFFAA4465), // Purple
             ],
           ),
@@ -379,7 +379,7 @@ class _MainMenuState extends State<MainMenu> {
           prestigeManager: GetIt.I<PrestigeManager>(),
           progressionManager: GetIt.I<ProgressionManager>(),
           title: 'Endless Runner Prestige',
-          accentColor: const Color(0xFFFF6B35),
+          accentColor: MGColors.orangeRed,
           onClose: () => Navigator.of(context).pop(),
           onPrestige: () => _performPrestige(context),
         ),
@@ -421,7 +421,7 @@ class _MainMenuState extends State<MainMenu> {
         builder: (context) => DailyQuestScreen(
           questManager: GetIt.I<DailyQuestManager>(),
           title: 'Daily Quests',
-          accentColor: const Color(0xFFFF6B35),
+          accentColor: MGColors.orangeRed,
           onClaimReward: (questId, goldReward, xpReward) {
             final goldManager = GetIt.I<GoldManager>();
             final progressionManager = GetIt.I<ProgressionManager>();
@@ -469,7 +469,7 @@ class _MainMenuState extends State<MainMenu> {
           questManager: GetIt.I<DailyQuestManager>(),
           achievementManager: GetIt.I<AchievementManager>(),
           title: 'Statistics',
-          accentColor: const Color(0xFFFF6B35),
+          accentColor: MGColors.orangeRed,
           onClose: () => Navigator.of(context).pop(),
         ),
       ),
@@ -482,7 +482,7 @@ class _MainMenuState extends State<MainMenu> {
         builder: (context) => common.SettingsScreen(
           settingsManager: GetIt.I<SettingsManager>(),
           title: 'Settings',
-          accentColor: const Color(0xFFFF6B35),
+          accentColor: MGColors.orangeRed,
           onClose: () => Navigator.of(context).pop(),
           version: '1.0.0',
         ),

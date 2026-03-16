@@ -108,7 +108,7 @@ class _TutorialOverlayState extends State<TutorialOverlay>
                       Icon(
                         step.icon,
                         size: 80,
-                        color: const Color(0xFFFF6B35),
+                        color: MGColors.orangeRed,
                       ),
                       const SizedBox(height: 40),
                       if (_currentStep == 0)
@@ -169,7 +169,7 @@ class _TutorialOverlayState extends State<TutorialOverlay>
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
                             color: index == _currentStep
-                                ? const Color(0xFFFF6B35)
+                                ? MGColors.orangeRed
                                 : Colors.white30,
                           ),
                         ),
