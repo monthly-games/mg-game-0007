@@ -9,7 +9,7 @@ plugins {
 }
 
 android {
-    namespace = "com.mg_game_0007.game"
+    namespace = "com.monthlygames.game0007"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
 
@@ -24,7 +24,7 @@ android {
 
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId = "com.mg_game_0007.game"
+        applicationId = "com.monthlygames.game0007"
         // You can update the following values to match your application needs.
         // For more information, see: https://flutter.dev/to/review-gradle-config.
         minSdk = flutter.minSdkVersion
