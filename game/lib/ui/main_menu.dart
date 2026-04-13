@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flame/game.dart';
 import 'package:get_it/get_it.dart';
 import '../game/platformer_game.dart';
@@ -13,6 +14,7 @@ import 'package:mg_common_game/systems/progression/prestige_manager.dart';
 import 'package:mg_common_game/systems/progression/progression_manager.dart';
 import 'package:mg_common_game/core/ui/screens/prestige_screen.dart';
 import 'package:mg_common_game/systems/quests/daily_quest.dart';
+import '../l10n/localization.dart';
 import 'package:mg_common_game/core/ui/screens/daily_quest_screen.dart';
 import 'package:mg_common_game/systems/quests/weekly_challenge.dart';
 import 'package:mg_common_game/core/ui/screens/weekly_challenge_screen.dart';
@@ -27,6 +29,7 @@ import '../game/theme_manager.dart';
 import '../game/theme_data.dart';
 import 'shop_screen.dart';
 import 'package:mg_common_game/core/ui/theme/mg_colors.dart';
+
 
 class MainMenu extends StatefulWidget {
   const MainMenu({super.key});
@@ -230,6 +233,38 @@ class _MainMenuState extends State<MainMenu> {
           ),
         ),
       ),
+      // Spine character placeholder (top-right corner)
+      Positioned(
+        top: 60,
+        right: 16,
+        child: GestureDetector(
+          onTap: () {
+            HapticFeedback.lightImpact();
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text("Runner greets you!"),
+                duration: Duration(seconds: 1),
+              ),
+            );
+          },
+          child: Container(
+            width: 100,
+            height: 100,
+            decoration: BoxDecoration(
+              color: Colors.yellow.withValues(alpha: 0.3),
+              borderRadius: BorderRadius.circular(12),
+              border: Border.all(color: Colors.yellow, width: 2),
+            ),
+            child: const Icon(
+              Icons.directions_run,
+              size: 60,
+              color: Colors.white,
+            ),
+          ),
+        ),
+      ),
+    ],
+    ),
     );
   }
 
@@ -284,14 +319,14 @@ class _MainMenuState extends State<MainMenu> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Row(
+        title: Row(
           children: [
-            Icon(Icons.help_outline, color: MGColors.warning),
-            SizedBox(width: 8),
-            Text('How to Play'),
+            const Icon(Icons.help_outline, color: MGColors.warning),
+            const SizedBox(width: 8),
+            Text(context.l10n.tutorial_how_to_play),
           ],
         ),
-        content: const Column(
+        content: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -300,9 +335,9 @@ class _MainMenuState extends State<MainMenu> {
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
             SizedBox(height: 8),
-            Text('• Tap to jump'),
-            Text('• Jump while in air to double jump'),
-            Text('• Avoid red obstacles'),
+            Text(context.l10n.ui_button_tap_to_jump),
+            Text(context.l10n.ui_general_jump_while_in_air_to),
+            Text(context.l10n.ui_general_avoid_red_obstacles),
             Text('• Don\'t fall off platforms'),
             SizedBox(height: 16),
             Text(
@@ -310,23 +345,23 @@ class _MainMenuState extends State<MainMenu> {
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
             SizedBox(height: 8),
-            Text('Endless: Run as far as possible!'),
-            Text('Time Attack: Max distance in 60s!'),
+            Text(context.l10n.ui_general_endless_run_as_far_as),
+            Text(context.l10n.ui_general_time_attack_max_distance_in),
             SizedBox(height: 16),
             Text(
               '⚠️ Game Over',
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
             SizedBox(height: 8),
-            Text('• Hit an obstacle'),
-            Text('• Fall off the screen'),
-            Text('• Time runs out (Time Attack)'),
+            Text(context.l10n.ui_general_hit_an_obstacle),
+            Text(context.l10n.ui_general_fall_off_the_screen),
+            Text(context.l10n.ui_general_time_runs_out_time_attack),
           ],
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(),
-            child: const Text('GOT IT!'),
+            child: Text(context.l10n.ui_general_got_it),
           ),
         ],
       ),
@@ -353,12 +388,12 @@ class _MainMenuState extends State<MainMenu> {
           },
           scores: [
             ScoreEntry(
-              label: 'Endless Run',
+              label: context.l10n.ui_general_endless_run,
               score: endlessScore,
               iconAsset: 'assets/images/icon_runner.png',
             ),
             ScoreEntry(
-              label: 'Time Attack',
+              label: context.l10n.ui_general_time_attack,
               score: timeAttackScore,
               iconAsset: 'assets/images/icon_timer.png',
             ),
@@ -557,8 +592,8 @@ class _MainMenuState extends State<MainMenu> {
                                 }
                               } else {
                                 ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                    content: Text('Not enough coins!'),
+                                  SnackBar(
+                                    content: Text(context.l10n.ui_general_not_enough_coins),
                                   ),
                                 );
                               }
@@ -939,15 +974,14 @@ class _GameScreenState extends State<GameScreen> {
 
           // MG Runner HUD
           if (!_showTutorial && !_showPause && !_game.gameOver)
-            StreamBuilder<int>(
-              stream: GetIt.I<GoldManager>().onGoldChanged,
-              initialData: GetIt.I<GoldManager>().currentGold,
-              builder: (context, snapshot) {
+            AnimatedBuilder(
+              animation: GetIt.I<GoldManager>(),
+              builder: (context, child) {
                 return MGRunnerHud(
                   score: _game.score,
                   highScore: _highScore,
                   distance: _game.distance.toInt(),
-                  coins: snapshot.data ?? 0,
+                  coins: GetIt.I<GoldManager>().currentGold,
                   isPaused: false,
                   onPause: () {
                     _game.togglePause();

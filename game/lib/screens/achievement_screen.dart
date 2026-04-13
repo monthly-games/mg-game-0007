@@ -1,6 +1,6 @@
 // ignore_for_file: depend_on_referenced_packages, prefer_const_constructors
 // ============================================================
-// Achievement Screen — MG-0007 Idle Runner
+// Achievement Screen -- MG-0007 Idle Runner
 // Genre: Idle · Retention System UI
 //
 // Firebase Analytics Events:

@@ -1,7 +1,8 @@
 // ============================================================
-// Gacha Screen — MG-0007 Pixel Farm Idle RPG
+// Gacha Screen -- MG-0007 Pixel Farm Idle RPG
 // Genre: Idle RPG · Gacha System UI
-// ============================================================
+// ============================================================import 'package:mg_common_game/l10n/localization.dart';
+
 
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
@@ -170,7 +171,7 @@ class _GachaScreenState extends State<GachaScreen>
                 Padding(
                   padding: const EdgeInsets.all(MGSpacing.lg),
                   child: MGButton(
-                    label: 'OK',
+                    label: context.l10n.ui_general_diwali_token_collection,
                     onPressed: _dismissResults,
                     size: MGButtonSize.large,
                     width: double.infinity,
@@ -512,7 +513,7 @@ class _GachaScreenState extends State<GachaScreen>
       children: [
         Expanded(
           child: GachaPullButton(
-            label: '1x Pull',
+            label: context.l10n.ui_general_1x_pull,
             cost: _kSinglePullCost,
             onPressed: _onSinglePull,
           ),
@@ -520,7 +521,7 @@ class _GachaScreenState extends State<GachaScreen>
         const SizedBox(width: MGSpacing.md),
         Expanded(
           child: GachaPullButton(
-            label: '10x Pull',
+            label: context.l10n.ui_general_10x_pull,
             cost: _kMultiPullCost,
             onPressed: _onMultiPull,
           ),

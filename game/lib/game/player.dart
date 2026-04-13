@@ -7,11 +7,11 @@ import 'platform.dart';
 import 'effects/particle_effects.dart';
 
 import 'package:get_it/get_it.dart';
-import 'package:mg_common_game/core/assets/asset_types.dart';
+// import 'package:mg_common_game/core/assets/asset_types.dart';
 import 'package:mg_common_game/core/audio/audio_manager.dart';
-import 'package:mg_common_game/core/ui/mg_ui.dart';
+import 'package:mg_common_game/core/ui/theme/mg_colors.dart';
 import 'character_data.dart';
-import 'spine_config.dart';
+// import 'spine_config.dart';
 
 class Player extends PositionComponent
     with HasGameReference<PlatformerGame>, CollisionCallbacks {
@@ -27,7 +27,7 @@ class Player extends PositionComponent
     : super(size: Vector2(40, 60), anchor: Anchor.center);
 
   Sprite? _displaySprite;
-  MGSpineActor? _spineActor;
+  // MGSpineActor? _spineActor;
 
   @override
   Future<void> onLoad() async {
@@ -38,12 +38,12 @@ class Player extends PositionComponent
       debugPrint('Failed to load player sprite: $e');
     }
 
-    if (kSpineEnabled) {
-      // Spine 캐릭터 로딩 (에셋 파일 준비 후 활성화)
-      final meta = _getMetaForCharacter(characterData.id);
-      _spineActor = MGSpineActor(assetKey: meta.key, meta: meta);
-      await add(_spineActor!);
-    }
+    // Spine support disabled - MGSpineActor not available
+    // if (kSpineEnabled) {
+    //   final meta = _getMetaForCharacter(characterData.id);
+    //   _spineActor = MGSpineActor(assetKey: meta.key, meta: meta);
+    //   await add(_spineActor!);
+    // }
   }
 
   void jump() {
@@ -184,16 +184,15 @@ class Player extends PositionComponent
     }
   }
 
-  // ── Spine 캐릭터 매핑 ──────────────────────────────────────
-
-  SpineAssetMeta _getMetaForCharacter(String characterId) {
-    return switch (characterId) {
-      'blue' => kBlueHeroMeta,
-      'red' => kRedHeroMeta,
-      'green' => kGreenHeroMeta,
-      'yellow' => kYellowHeroMeta,
-      'purple' => kPurpleHeroMeta,
-      _ => kBlueHeroMeta,
-    };
-  }
+  // Spine character mapping - disabled
+  // SpineAssetMeta _getMetaForCharacter(String characterId) {
+  //   return switch (characterId) {
+  //     'blue' => kBlueHeroMeta,
+  //     'red' => kRedHeroMeta,
+  //     'green' => kGreenHeroMeta,
+  //     'yellow' => kYellowHeroMeta,
+  //     'purple' => kPurpleHeroMeta,
+  //     _ => kBlueHeroMeta,
+  //   };
+  // }
 }

@@ -1,8 +1,9 @@
 import 'package:mg_common_game/systems/tutorial/tutorial.dart';
+import 'package:mg_common_game/systems/tutorial/tutorial_data.dart';
 
 /// Tutorial configuration for MG-0007: Pixel Farm Idle RPG.
 ///
-/// Placeholder tutorial steps — replace with localized strings
+/// Placeholder tutorial steps -- replace with localized strings
 /// and add targetSelector for highlight positioning in production.
 const kOnboardingTutorial = TutorialConfig(
   id: 'onboarding',

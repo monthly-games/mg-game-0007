@@ -1,6 +1,6 @@
 // ignore_for_file: depend_on_referenced_packages, unused_local_variable
 // ============================================================
-// Collection Screen — MG-0007 Pixel Farm Idle RPG
+// Collection Screen -- MG-0007 Pixel Farm Idle RPG
 // Genre: Idle RPG · Collection System UI
 //
 // Firebase Analytics Events:

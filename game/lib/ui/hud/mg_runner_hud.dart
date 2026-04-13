@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:mg_common_game/core/ui/mg_ui.dart';
 
 /// MG UI 기반 러너 게임 HUD
@@ -140,6 +141,9 @@ class MGRunnerHud extends StatelessWidget {
 
           // 중앙 영역 확장 (게임 영역)
           const Expanded(child: SizedBox()),
+          // Spine 캐릭터
+          _buildSpineCharacter(),
+          const SizedBox(height: 50),
 
           // 하단: 최고 점수 (필요시)
           if (highScore > 0)
@@ -242,4 +246,34 @@ class MGRunnerHud extends StatelessWidget {
     }
     return number.toString();
   }
+
+
+  Widget _buildSpineCharacter() {
+    return GestureDetector(
+      onTap: () {
+        HapticFeedback.lightImpact();
+      },
+      child: Container(
+        width: 60,
+        height: 60,
+        decoration: BoxDecoration(
+          color: Colors.green.withValues(alpha: 0.6),
+          borderRadius: BorderRadius.circular(10),
+          border: Border.all(color: Colors.green.withAlpha(150), width: 2),
+        ),
+        child: const Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(Icons.person, size: 24, color: Colors.white),
+            SizedBox(height: 2),
+            Text(
+              'Runner',
+              style: TextStyle(color: Colors.white, fontSize: 8, fontWeight: FontWeight.bold),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
 }

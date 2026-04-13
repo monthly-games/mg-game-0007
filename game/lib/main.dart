@@ -1,44 +1,38 @@
-import 'package:mg_common_game/mg_common_game.dart';
 import 'package:flutter/material.dart';
+import 'package:mg_common_game/systems/events/seasonal_content_manager.dart';
+import 'package:mg_common_game/systems/competitive/tournament_manager.dart';
+import 'package:mg_common_game/systems/social/guild_war_manager.dart';
+import 'package:mg_common_game/core/ui/theme/mg_colors.dart';
+import 'package:mg_common_game/core/ui/screens/daily_hub_screen.dart';
+import 'package:mg_common_game/systems/retention/daily_challenge_manager.dart';
+import 'package:mg_common_game/systems/retention/streak_manager.dart';
+import 'package:mg_common_game/systems/retention/login_rewards_manager.dart';
+import 'package:flutter/foundation.dart';
+import 'package:mg_common_game/systems/systems.dart';
 import 'ui/main_menu.dart';
 
 import 'package:get_it/get_it.dart';
+import 'package:mg_common_game/core/audio/audio_manager.dart';
+import 'package:mg_common_game/systems/progression/progression_manager.dart';
+import 'package:mg_common_game/systems/progression/upgrade_manager.dart';
+import 'package:mg_common_game/systems/progression/achievement_manager.dart';
+import 'package:mg_common_game/systems/progression/prestige_manager.dart';
+import 'package:mg_common_game/systems/quests/daily_quest.dart';
+import 'package:mg_common_game/systems/quests/weekly_challenge.dart';
 import 'package:mg_common_game/core/economy/gold_manager.dart';
+import 'package:mg_common_game/systems/settings/settings_manager.dart';
+import 'package:mg_common_game/systems/stats/statistics_manager.dart';
+import 'package:mg_common_game/core/systems/save_manager_helper.dart';
 import 'game/character_manager.dart';
 import 'game/theme_manager.dart';
 import 'game/iap_manager.dart';
 import 'screens/daily_quest_screen.dart';
 import 'screens/achievement_screen.dart';
 import 'screens/collection_screen.dart';
-import 'game/tutorial_config.dart';
-import 'game/balancing_config.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await _setupDI();
-  // ── Tutorial & Balancing ──────────────────────────────────
-  if (!GetIt.I.isRegistered<TutorialManager>()) {
-    final tutorialManager = TutorialManager();
-    await tutorialManager.initialize();
-    tutorialManager.registerTutorial(
-      kOnboardingTutorial.id,
-      kOnboardingTutorial.steps,
-    );
-    GetIt.I.registerSingleton<TutorialManager>(tutorialManager);
-  }
-  if (!GetIt.I.isRegistered<BalancingManager>()) {
-    GetIt.I.registerSingleton<BalancingManager>(
-      BalancingManager(defaultConfig: kDefaultBalancingConfig),
-    );
-  }
-  // ── Q7 DI Fix: Missing Systems ──────────────────────────
-  if (!GetIt.I.isRegistered<BattlePassManager>()) {
-    GetIt.I.registerSingleton<BattlePassManager>(BattlePassManager());
-  }
-  if (!GetIt.I.isRegistered<GachaManager>()) {
-    GetIt.I.registerSingleton<GachaManager>(GachaManager());
-  }
-
   runApp(const PlatformerApp());
 }
 
@@ -53,7 +47,9 @@ Future<void> _setupDI() async {
   // 2. Progression Manager
   if (!GetIt.I.isRegistered<ProgressionManager>()) {
     final progressionManager = ProgressionManager();
+    if (!GetIt.I.isRegistered<ProgressionManager>()) {
     GetIt.I.registerSingleton(progressionManager);
+  };
 
     // Haptic feedback on level up
     progressionManager.onLevelUp = (newLevel) {
@@ -103,7 +99,9 @@ Future<void> _setupDI() async {
         valuePerLevel: 0.1,
       ),
     );
-    GetIt.I.registerSingleton(upgradeManager);
+    if (!GetIt.I.isRegistered<UpgradeManager>()) {
+    GetIt.I.registerSingleton<UpgradeManager>(upgradeManager);
+  };
   }
 
   // 4. Achievement Manager
@@ -142,7 +140,9 @@ Future<void> _setupDI() async {
       }
     };
 
-    GetIt.I.registerSingleton(achievementManager);
+    if (!GetIt.I.isRegistered<AchievementManager>()) {
+      GetIt.I.registerSingleton<AchievementManager>(achievementManager);
+    }
   }
 
   // 5. Prestige Manager
@@ -324,13 +324,50 @@ Future<void> _setupDI() async {
 
   // 8. Gold Manager
   if (!GetIt.I.isRegistered<GoldManager>()) {
-    GetIt.I.registerSingleton(GoldManager());
+    if (!GetIt.I.isRegistered<GoldManager(>()) {
+    GetIt.I.registerSingleton(GoldManager();
+  });
+      // --- BattlePass System ---
+      if (!GetIt.I.isRegistered<BattlePassManager>()) {
+        if (!GetIt.I.isRegistered<BattlePassManager(>()) {
+    GetIt.I.registerSingleton(BattlePassManager();
+  });
+      // --- Gacha System with Pity ---
+      if (!GetIt.I.isRegistered<GachaManager>()) {
+        final gachaManager = GachaManager();
+        gachaManager.configurePity(
+          hardPityThreshold: 90,
+          softPityThreshold: 60,
+          softPityRateIncrease: 0.06,
+        );
+        if (!GetIt.I.isRegistered<gachaManager>()) {
+    GetIt.I.registerSingleton(gachaManager);
+  };
+      // --- Daily Quest V2 (7-Slot System) ---
+      if (!GetIt.I.isRegistered<DailyQuestManagerV2>()) {
+        final questManager = DailyQuestManagerV2();
+        if (!GetIt.I.isRegistered<questManager>()) {
+    GetIt.I.registerSingleton(questManager);
+  };
+        await questManager.loadQuestData();
+        await questManager.checkAndResetIfNeeded();
+        print('DailyQuestManagerV2 registered with 7-slot system');
+      }
+
+        print('GachaManager registered with pity system');
+      }
+
+        print('BattlePassManager registered');
+      }
+
   }
 
   // 9. Settings Manager
   if (!GetIt.I.isRegistered<SettingsManager>()) {
     final settingsManager = SettingsManager();
+    if (!GetIt.I.isRegistered<settingsManager>()) {
     GetIt.I.registerSingleton(settingsManager);
+  };
 
     if (GetIt.I.isRegistered<AudioManager>()) {
       settingsManager.setAudioManager(GetIt.I<AudioManager>());
@@ -342,7 +379,9 @@ Future<void> _setupDI() async {
   // 10. Statistics Manager
   if (!GetIt.I.isRegistered<StatisticsManager>()) {
     final statisticsManager = StatisticsManager();
+    if (!GetIt.I.isRegistered<statisticsManager>()) {
     GetIt.I.registerSingleton(statisticsManager);
+  };
 
     await statisticsManager.loadStats();
     statisticsManager.startSession();
@@ -360,43 +399,63 @@ Future<void> _setupDI() async {
   if (!GetIt.I.isRegistered<CharacterManager>()) {
     final charManager = CharacterManager();
     await charManager.loadData();
+    if (!GetIt.I.isRegistered<charManager>()) {
     GetIt.I.registerSingleton(charManager);
+  };
   }
 
   // 13. Theme Manager
   if (!GetIt.I.isRegistered<ThemeManager>()) {
     final themeManager = ThemeManager();
     await themeManager.load();
+    if (!GetIt.I.isRegistered<themeManager>()) {
     GetIt.I.registerSingleton(themeManager);
+  };
   }
 
   // 14. IAP Manager
   if (!GetIt.I.isRegistered<IAPManager>()) {
     final iapManager = IAPManager();
     await iapManager.load();
+    if (!GetIt.I.isRegistered<iapManager>()) {
     GetIt.I.registerSingleton(iapManager);
+  };
   // Collection 시스템
   if (!GetIt.I.isRegistered<CollectionManager>()) {
-    GetIt.I.registerSingleton(CollectionManager());
+    if (!GetIt.I.isRegistered<CollectionManager(>()) {
+    GetIt.I.registerSingleton(CollectionManager();
+  });
   // ── Retention Systems for DailyHub ────────────────────────
   if (!GetIt.I.isRegistered<LoginRewardsManager>()) {
-    GetIt.I.registerSingleton(LoginRewardsManager());
+    if (!GetIt.I.isRegistered<LoginRewardsManager(>()) {
+    GetIt.I.registerSingleton(LoginRewardsManager();
+  });
   }
   if (!GetIt.I.isRegistered<StreakManager>()) {
-    GetIt.I.registerSingleton(StreakManager());
+    if (!GetIt.I.isRegistered<StreakManager(>()) {
+    GetIt.I.registerSingleton(StreakManager();
+  });
   }
   if (!GetIt.I.isRegistered<DailyChallengeManager>()) {
-    GetIt.I.registerSingleton(DailyChallengeManager());
+    if (!GetIt.I.isRegistered<DailyChallengeManager(>()) {
+    GetIt.I.registerSingleton(DailyChallengeManager();
+  });
 }
   // ── P3 Engine Systems ─────────────────────────────────────
   if (!GetIt.I.isRegistered<GuildWarManager>()) {
-    GetIt.I.registerSingleton(GuildWarManager());
+    if (!GetIt.I.isRegistered<GuildWarManager(>()) {
+    GetIt.I.registerSingleton(GuildWarManager();
+  });
   }
   if (!GetIt.I.isRegistered<TournamentManager>()) {
-    GetIt.I.registerSingleton(TournamentManager());
+    if (!GetIt.I.isRegistered<TournamentManager(>()) {
+    GetIt.I.registerSingleton(TournamentManager();
+  });
   }
   if (!GetIt.I.isRegistered<SeasonalContentManager>()) {
-    GetIt.I.registerSingleton(SeasonalContentManager());
+    if (!GetIt.I.isRegistered<SeasonalContentManager(>()) {
+    GetIt.I.registerSingleton(SeasonalContentManager();
+  });
   }
     _registerCollections();
   }
@@ -433,21 +492,6 @@ class PlatformerApp extends StatelessWidget {
         '/collection': (context) => CollectionScreen(
           collectionManager: GetIt.I<CollectionManager>(),
         ),
-        '/guild-war': (context) => GuildWarScreen(
-          guildWarManager: GetIt.I<GuildWarManager>(),
-          accentColor: MGColors.primaryAction,
-          onClose: () => Navigator.pop(context),
-          ),
-        '/tournament': (context) => TournamentScreen(
-          tournamentManager: GetIt.I<TournamentManager>(),
-          accentColor: MGColors.primaryAction,
-          onClose: () => Navigator.pop(context),
-          ),
-        '/seasonal-event': (context) => SeasonalEventScreen(
-          seasonalContentManager: GetIt.I<SeasonalContentManager>(),
-          accentColor: MGColors.primaryAction,
-          onClose: () => Navigator.pop(context),
-          ),
 },
       home: const MainMenu(),
     );
@@ -463,42 +507,42 @@ void _registerCollections() {
     name: '캐릭터',
     description: '모든 캐릭터를 수집하세요',
     items: [
-      const CollectionItem(
+      CollectionItem(
         id: 'char_warrior',
         name: '전사',
         description: '강인한 근접 전투 캐릭터',
         rarity: CollectionRarity.common,
       ),
-      const CollectionItem(
+      CollectionItem(
         id: 'char_mage',
         name: '마법사',
         description: '강력한 마법 공격 캐릭터',
         rarity: CollectionRarity.rare,
       ),
-      const CollectionItem(
+      CollectionItem(
         id: 'char_archer',
         name: '궁수',
         description: '원거리 정밀 공격 캐릭터',
         rarity: CollectionRarity.rare,
       ),
-      const CollectionItem(
+      CollectionItem(
         id: 'char_assassin',
         name: '암살자',
         description: '치명적인 은신 공격 캐릭터',
         rarity: CollectionRarity.epic,
       ),
-      const CollectionItem(
+      CollectionItem(
         id: 'char_healer',
         name: '힐러',
         description: '팀을 치유하는 지원 캐릭터',
         rarity: CollectionRarity.legendary,
       ),
     ],
-    completionReward: const CollectionReward(type: RewardType.gold, amount: 10000),
+    completionReward: CollectionReward(type: RewardType.gold, amount: 10000),
     milestoneRewards: {
-      25: const CollectionReward(type: RewardType.gold, amount: 1000),
-      50: const CollectionReward(type: RewardType.gold, amount: 3000),
-      75: const CollectionReward(type: RewardType.gold, amount: 5000),
+      25: CollectionReward(type: RewardType.gold, amount: 1000),
+      50: CollectionReward(type: RewardType.gold, amount: 3000),
+      75: CollectionReward(type: RewardType.gold, amount: 5000),
     },
   ));
 
