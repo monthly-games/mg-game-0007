@@ -171,7 +171,7 @@ class _GachaScreenState extends State<GachaScreen>
                 Padding(
                   padding: const EdgeInsets.all(MGSpacing.lg),
                   child: MGButton(
-                    label: context.l10n.ui_general_diwali_token_collection,
+                    label: 'Continue',
                     onPressed: _dismissResults,
                     size: MGButtonSize.large,
                     width: double.infinity,
@@ -513,7 +513,7 @@ class _GachaScreenState extends State<GachaScreen>
       children: [
         Expanded(
           child: GachaPullButton(
-            label: context.l10n.ui_general_1x_pull,
+            label: '1x Pull',
             cost: _kSinglePullCost,
             onPressed: _onSinglePull,
           ),
@@ -521,7 +521,7 @@ class _GachaScreenState extends State<GachaScreen>
         const SizedBox(width: MGSpacing.md),
         Expanded(
           child: GachaPullButton(
-            label: context.l10n.ui_general_10x_pull,
+            label: '10x Pull',
             cost: _kMultiPullCost,
             onPressed: _onMultiPull,
           ),

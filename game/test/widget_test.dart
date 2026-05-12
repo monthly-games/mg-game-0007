@@ -21,6 +21,6 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.text('ENDLESS RUN'), findsOneWidget);
-    expect(find.text('SETTINGS'), findsOneWidget);
+    expect(find.text('Settings'), findsOneWidget);
   });
 }

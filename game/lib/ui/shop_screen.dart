@@ -3,7 +3,6 @@ import 'package:get_it/get_it.dart';
 import 'package:mg_common_game/core/economy/gold_manager.dart';
 import '../game/iap_manager.dart';
 import 'package:mg_common_game/core/ui/theme/mg_colors.dart';
-import '../l10n/localization.dart';
 
 
 class ShopScreen extends StatefulWidget {
@@ -42,7 +41,7 @@ class _ShopScreenState extends State<ShopScreen> {
 
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text(context.l10n.shop_purchased_title_successfully),
+            content: Text('Purchased $title successfully'),
             backgroundColor: MGColors.success,
           ),
         );
@@ -53,7 +52,7 @@ class _ShopScreenState extends State<ShopScreen> {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text(context.l10n.error_failed_to_purchase_title),
+          content: Text('Failed to purchase $title'),
           backgroundColor: MGColors.error,
         ),
       );

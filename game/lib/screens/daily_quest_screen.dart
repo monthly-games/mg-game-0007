@@ -18,7 +18,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:get_it/get_it.dart';
-import '../l10n/localization.dart';
 import 'package:mg_common_game/core/ui/mg_ui.dart';
 import 'package:mg_common_game/systems/quests/daily_quest.dart';
 
@@ -332,7 +331,7 @@ class _DailyQuestScreenState extends State<DailyQuestScreen> {
               const Spacer(),
               if (isClaimable)
                 MGButton(
-                  label: context.l10n.notification_rewardslength_rewards_claimed,
+                  label: 'Claim reward',
                   size: MGButtonSize.small,
                   icon: Icons.card_giftcard_rounded,
                   backgroundColor: MGColors.success,

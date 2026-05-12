@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:mg_common_game/core/ui/theme/mg_colors.dart';
-import '../l10n/localization.dart';
 
 
 class PauseOverlay extends StatelessWidget {
@@ -41,21 +40,21 @@ class PauseOverlay extends StatelessWidget {
             const SizedBox(height: 60),
             _PauseButton(
               icon: Icons.play_arrow,
-              label: context.l10n.menu_navigation_resume_shift,
+              label: 'Resume',
               color: MGColors.success,
               onPressed: onResume,
             ),
             const SizedBox(height: 20),
             _PauseButton(
               icon: Icons.refresh,
-              label: context.l10n.menu_navigation_restart_experiment,
+              label: 'Restart',
               color: MGColors.warning,
               onPressed: onRestart,
             ),
             const SizedBox(height: 20),
             _PauseButton(
               icon: Icons.home,
-              label: context.l10n.menu_navigation_main_menu,
+              label: 'Main Menu',
               color: MGColors.info,
               onPressed: onMainMenu,
             ),
