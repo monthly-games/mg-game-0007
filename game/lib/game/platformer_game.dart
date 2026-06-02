@@ -16,6 +16,7 @@ import 'character_manager.dart';
 import 'theme_manager.dart';
 import '../utils/high_score_manager.dart';
 import 'package:mg_common_game/core/ui/theme/mg_colors.dart';
+import 'mission_system.dart';
 
 enum PlatformerGameMode { endless, timeAttack }
 
@@ -26,6 +27,7 @@ class PlatformerGame extends FlameGame
 
   AudioManager get _audioManager => GetIt.I<AudioManager>();
   late Player player;
+  MissionSystem? missionSystem;
   static const double gravity = 980.0;
   static const double scrollSpeed = 200.0; // 자동 스크롤 속도
 
@@ -113,7 +115,10 @@ class PlatformerGame extends FlameGame
 
     // 거리 증가
     distance += scrollSpeed * dt;
-    score = (distance / 10).floor();
+
+    // Score calculation with multiplier
+    final multiplier = player.scoreMultiplierTimer > 0 ? 2 : 1;
+    score = (distance / 10 * multiplier).floor();
 
     // 모든 플랫폼과 장애물을 왼쪽으로 이동
     for (final component in children) {
@@ -169,10 +174,10 @@ class PlatformerGame extends FlameGame
     );
 
     // Spawn Collectible?
-    // 60% chance for Coin
-    // 5% chance for Booster
+    // 50% chance for Coin
+    // 15% chance for Power-up
     final rand = _random.nextDouble();
-    if (rand < 0.6) {
+    if (rand < 0.5) {
       // Coin
       add(
         Collectible(
@@ -183,13 +188,15 @@ class PlatformerGame extends FlameGame
           type: CollectibleType.coin,
         ),
       );
-    } else if (rand > 0.95) {
-      // Booster
+    } else if (rand > 0.85) {
+      // Power-up variety
       final boosterType = [
         CollectibleType.magnet,
         CollectibleType.shield,
         CollectibleType.doubleCoin,
-      ][_random.nextInt(3)];
+        CollectibleType.doubleJump,
+        CollectibleType.scoreMultiplier,
+      ][_random.nextInt(5)];
       add(
         Collectible(
           position: Vector2(size.x + 50 + platformWidth / 2, platformY - 40),
@@ -287,6 +294,10 @@ class PlatformerGame extends FlameGame
     gameOver = true;
     _audioManager.playSfx('collision.wav');
 
+    // Track mission progress on game end
+    missionSystem?.onGameEnd(score, coins, distance.toInt());
+    missionSystem?.onGamePlayed();
+
     // Add screen shake effect on collision
     add(ScreenShakeEffect(game: this, intensity: 12.0, duration: 0.35));
 
@@ -367,12 +378,28 @@ class PlatformerGame extends FlameGame
     if (player.doubleCoinTimer > 0) {
       buffText += "x2 (${player.doubleCoinTimer.toInt()}) ";
     }
+    if (player.scoreMultiplierTimer > 0) {
+      buffText += "xSCORE (${player.scoreMultiplierTimer.toInt()}) ";
+    }
     if (player.hasShield) {
       buffText += "[SHIELD] ";
     }
+    if (player.doubleJumpCharges > 0) {
+      buffText += "DJx${player.doubleJumpCharges} ";
+    }
 
     if (buffText.isNotEmpty) {
-      coinPaint.render(canvas, buffText, Vector2(20, 90));
+      final buffPaint = TextPaint(
+        style: const TextStyle(
+          color: Colors.orange,
+          fontSize: 18,
+          fontWeight: FontWeight.bold,
+          shadows: [
+            Shadow(offset: Offset(1, 1), blurRadius: 2, color: Colors.black),
+          ],
+        ),
+      );
+      buffPaint.render(canvas, buffText, Vector2(20, 90));
     }
 
     // Time Attack Timer Display

@@ -454,7 +454,7 @@ class _MainMenuState extends State<MainMenu> {
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (context) => DailyQuestScreen(
-          questManager: GetIt.I<DailyQuestManager>(),
+          questManager: GetIt.I<DailyQuestManagerV2>(),
           title: 'Daily Quests',
           accentColor: MGColors.orangeRed,
           onClaimReward: (questId, goldReward, xpReward) {
@@ -501,7 +501,7 @@ class _MainMenuState extends State<MainMenu> {
           statisticsManager: GetIt.I<StatisticsManager>(),
           progressionManager: GetIt.I<ProgressionManager>(),
           prestigeManager: GetIt.I<PrestigeManager>(),
-          questManager: GetIt.I<DailyQuestManager>(),
+          questManager: GetIt.I<DailyQuestManagerV2>(),
           achievementManager: GetIt.I<AchievementManager>(),
           title: 'Statistics',
           accentColor: MGColors.orangeRed,

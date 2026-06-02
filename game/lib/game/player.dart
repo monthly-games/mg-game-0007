@@ -52,7 +52,25 @@ class Player extends PositionComponent
       isOnGround = false;
       _audioManager.playSfx('jump.wav');
 
+      // Track jump for missions
+      game.missionSystem?.onJump();
+
       // Add jump particle effect
+      game.add(
+        JumpParticleEffect(
+          position: Vector2(position.x, position.y + size.y / 2),
+        ),
+      );
+    } else if (doubleJumpCharges > 0) {
+      // Double jump
+      velocity.y = jumpSpeed * 0.8; // Slightly weaker than normal jump
+      doubleJumpCharges--;
+      _audioManager.playSfx('jump.wav');
+
+      // Track jump for missions
+      game.missionSystem?.onJump();
+
+      // Add double jump particle effect
       game.add(
         JumpParticleEffect(
           position: Vector2(position.x, position.y + size.y / 2),
@@ -82,6 +100,8 @@ class Player extends PositionComponent
   bool hasShield = false;
   double magnetTimer = 0;
   double doubleCoinTimer = 0;
+  int doubleJumpCharges = 0;
+  double scoreMultiplierTimer = 0;
 
   @override
   void update(double dt) {
@@ -90,6 +110,7 @@ class Player extends PositionComponent
     // Timers
     if (magnetTimer > 0) magnetTimer -= dt;
     if (doubleCoinTimer > 0) doubleCoinTimer -= dt;
+    if (scoreMultiplierTimer > 0) scoreMultiplierTimer -= dt;
 
     // 중력 적용
     if (!isOnGround) {
@@ -181,6 +202,33 @@ class Player extends PositionComponent
         ..color = MGColors.error.withValues(alpha: 0.3)
         ..style = PaintingStyle.stroke;
       canvas.drawCircle(Offset.zero, size.x, magPaint);
+    }
+
+    // Double Jump Visual
+    if (doubleJumpCharges > 0) {
+      final jumpPaint = Paint()
+        ..color = Colors.purple.withValues(alpha: 0.6)
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 2;
+      canvas.drawCircle(Offset.zero, size.x * 0.6, jumpPaint);
+      // Draw jump charge count
+      final chargeText = TextPaint(
+        style: const TextStyle(
+          color: Colors.purple,
+          fontSize: 16,
+          fontWeight: FontWeight.bold,
+        ),
+      );
+      chargeText.render(canvas, doubleJumpCharges.toString(), Vector2(-5, -8));
+    }
+
+    // Score Multiplier Visual
+    if (scoreMultiplierTimer > 0) {
+      final multPaint = Paint()
+        ..color = Colors.orange.withValues(alpha: 0.4)
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 3;
+      canvas.drawCircle(Offset.zero, size.x * 1.2, multPaint);
     }
   }
 

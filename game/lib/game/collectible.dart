@@ -7,7 +7,7 @@ import 'package:mg_common_game/core/audio/audio_manager.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mg_common_game/core/ui/theme/mg_colors.dart';
 
-enum CollectibleType { coin, magnet, shield, doubleCoin }
+enum CollectibleType { coin, magnet, shield, doubleCoin, doubleJump, scoreMultiplier }
 
 class Collectible extends PositionComponent
     with HasGameReference<PlatformerGame>, CollisionCallbacks {
@@ -64,6 +64,11 @@ class Collectible extends PositionComponent
   void _collect() {
     removeFromParent();
 
+    // Track power-up collection for missions
+    if (type != CollectibleType.coin) {
+      game.missionSystem?.onPowerupCollected();
+    }
+
     switch (type) {
       case CollectibleType.coin:
         int amount = 1;
@@ -81,6 +86,14 @@ class Collectible extends PositionComponent
         break;
       case CollectibleType.doubleCoin:
         game.player.doubleCoinTimer = 10.0;
+        _audioManager.playSfx('powerup.wav');
+        break;
+      case CollectibleType.doubleJump:
+        game.player.doubleJumpCharges = 1;
+        _audioManager.playSfx('powerup.wav');
+        break;
+      case CollectibleType.scoreMultiplier:
+        game.player.scoreMultiplierTimer = 15.0; // 15 seconds
         _audioManager.playSfx('powerup.wav');
         break;
     }
@@ -105,6 +118,12 @@ class Collectible extends PositionComponent
           break;
         case CollectibleType.doubleCoin:
           paint.color = MGColors.success;
+          break;
+        case CollectibleType.doubleJump:
+          paint.color = Colors.purple;
+          break;
+        case CollectibleType.scoreMultiplier:
+          paint.color = Colors.orange;
           break;
       }
 
